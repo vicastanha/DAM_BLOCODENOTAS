@@ -2,16 +2,17 @@
 import 'package:bloco_de_notas/database/database_provider.dart';
 import 'package:bloco_de_notas/model/anotacao.dart';
 
-class AnotacaoDao{
+
+class AnotacaoDao {
   final dbProvider = DatabaseProvider.instance;
 
-  Future<bool> salvar(Anotacao anotacao) async{
+  Future<bool> salvar(Anotacao anotacao) async {
     final db = await dbProvider.database;
     final valores = anotacao.toMap();
-    if(anotacao.id == null){
+    if (anotacao.id == null) {
       anotacao.id = await db.insert(Anotacao.nome_tabela, valores);
       return true;
-    }else {
+    } else {
       final registrosAtualizados = await db.update(
           Anotacao.nome_tabela, valores,
           where: '${Anotacao.campo_id} = ?',
@@ -21,7 +22,7 @@ class AnotacaoDao{
     }
   }
 
-  Future<bool> remover(int id) async{
+  Future<bool> remover(int id) async {
     final db = await dbProvider.database;
     final removerRegistro = await db.delete(Anotacao.nome_tabela,
         where: '${Anotacao.campo_id} = ?', whereArgs: [id]);
@@ -33,21 +34,21 @@ class AnotacaoDao{
     String filtro = '',
     String campoOrdenacao = Anotacao.campo_id,
     bool usarOrdemDecrescente = false,
-  }) async{
+  }) async {
     final db = await dbProvider.database;
 
     String? where;
-    if(filtro.isNotEmpty){
+    if (filtro.isNotEmpty) {
       where = "UPPER(${Anotacao.campo_descricao}) LIKE '${filtro.toUpperCase()}%'";
     }
 
-    var orderBy= campoOrdenacao;
-    if (usarOrdemDecrescente){
+    var orderBy = campoOrdenacao;
+    if (usarOrdemDecrescente) {
       orderBy += ' DESC';
     }
 
     final resultado = await db.query(Anotacao.nome_tabela,
-      columns: [Anotacao.campo_id, Anotacao.campo_titulo, Anotacao.campo_descricao],
+      columns: [Anotacao.campo_id, Anotacao.campo_titulo, Anotacao.campo_descricao, Anotacao.campo_latitude, Anotacao.campo_longitude],
       where: where,
       orderBy: orderBy,
     );

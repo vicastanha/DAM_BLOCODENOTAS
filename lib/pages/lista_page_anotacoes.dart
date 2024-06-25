@@ -1,7 +1,7 @@
 
 import 'package:bloco_de_notas/dao/anotacao_dao.dart';
 import 'package:bloco_de_notas/model/anotacao.dart';
-import 'package:bloco_de_notas/pages/detalhe_anotaocao_page.dart';
+import 'package:bloco_de_notas/pages/detalhe_anotacao_page.dart';
 import 'package:bloco_de_notas/pages/filtros_page.dart';
 import 'package:bloco_de_notas/widgets/conteudo_form_dialog.dart';
 import 'package:flutter/material.dart';
